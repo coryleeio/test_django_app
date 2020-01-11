@@ -67,34 +67,18 @@ spec:
       }
     }
 
-
-    parallel{
-      stage('Deploy Prod') {
-
-        steps {
+    stage('Deploy Prod') {
+      steps {
+        parallel(
           container('maven') {
             sh 'mvn -version'
-          }
+          },
           container('busybox') {
             sh '/bin/busybox'
           }
-        }
-      }
-
-      stage('Deploy Edge') {
-        steps {
-          container('maven') {
-            sh 'mvn -version'
-          }
-          container('busybox') {
-            sh '/bin/busybox'
-          }
-        }
+        )
       }
     }
-
-
-
 
   }
 }
