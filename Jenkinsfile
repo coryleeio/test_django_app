@@ -35,14 +35,36 @@ spec:
     }
 
     stage('Test') {
-      steps {
-        container('maven') {
-          sh 'mvn -version'
+        parallel {
+            stage('Test shard1') {
+              steps {
+                container('busybox') {
+                  sh 'echo shard1'
+                }
+              }
+            }
+            stage('Test shard2') {
+              steps {
+                container('busybox') {
+                  sh 'echo shard2'
+                }
+              }
+            }
+            stage('Test shard3') {
+              steps {
+                container('busybox') {
+                  sh 'echo shard3'
+                }
+              }
+            }
+            stage('Test shard4') {
+              steps {
+                container('busybox') {
+                  sh 'echo shard4'
+                }
+              }
+            }
         }
-        container('busybox') {
-          sh '/bin/busybox'
-        }
-      }
     }
 
     stage('Publish') {
