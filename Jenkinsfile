@@ -57,8 +57,8 @@ spec:
         parallel {
             stage('Test shard1') {
               steps {
-                container('busybox') {
-                  sh 'echo shard1'
+                container('docker') {
+                    sh 'docker images'
                 }
               }
             }
@@ -108,9 +108,9 @@ spec:
       }
     }
 
-    stage('Release') {
+    stage('Promote') {
         parallel {
-            stage('Deploy to Prod') {
+            stage('Promote to Prod') {
               steps {
                 container('maven') {
                   sh 'mvn -version'
@@ -120,7 +120,7 @@ spec:
                 }
               }
             }
-            stage('Deploy to Edge') {
+            stage('Promote to Edge') {
               steps {
                 container('maven') {
                   sh 'mvn -version'
