@@ -19,6 +19,22 @@ spec:
     command:
     - cat
     tty: true
+  - name: docker
+    image: docker:19.03.1
+    command:
+    - sleep
+    args:
+    - 99d
+    env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
+  - name: docker-daemon
+    image: docker:19.03.1-dind
+    securityContext:
+      privileged: true
+    env:
+      - name: DOCKER_TLS_CERTDIR
+        value: ""
 """
     }
   }
@@ -30,6 +46,9 @@ spec:
         }
         container('busybox') {
           sh '/bin/busybox'
+        }
+        container('docker') {
+            sh 'docker version && docker build .'
         }
       }
     }
