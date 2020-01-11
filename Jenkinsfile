@@ -56,7 +56,7 @@ spec:
       }
     }
 
-    stage('Deploy Stage') {
+    stage('Deploy to stage') {
       steps {
         container('maven') {
           sh 'mvn -version'
@@ -67,17 +67,29 @@ spec:
       }
     }
 
-    stage('Deploy Prod') {
-      steps {
-        parallel(
-          container('maven') {
-            sh 'mvn -version'
-          },
-          container('busybox') {
-            sh '/bin/busybox'
-          }
-        )
-      }
+    stage('Release') {
+        parallel {
+            stage('Deploy to Prod') {
+              steps {
+                container('maven') {
+                  sh 'mvn -version'
+                }
+                container('busybox') {
+                  sh '/bin/busybox'
+                }
+              }
+            }
+            stage('Deploy to Edge') {
+              steps {
+                container('maven') {
+                  sh 'mvn -version'
+                }
+                container('busybox') {
+                  sh '/bin/busybox'
+                }
+              }
+            }
+        }
     }
 
   }
