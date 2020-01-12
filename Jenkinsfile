@@ -45,7 +45,7 @@ spec:
           sh 'mvn -version'
         }
         container('busybox') {
-          sh '/bin/busybox'
+          sh 'env'
         }
         container('docker') {
             sh 'docker version && docker build .'
